@@ -29,6 +29,17 @@ function concertPrompt(){
         ])
 }
 
+function spotifyPrompt(){
+    inquirer
+        .prompt([
+            {
+            type: "input",
+            message: "Which song would you like to get information about?",
+            name: "song"
+            },
+        ])
+}
+
 
 // Create a "Prompt" with a series of questions.
 inquirer
@@ -46,6 +57,7 @@ inquirer
           concertPrompt();
 
       } else if (inquirerResponse.command === "spotify-this-song") {
+          spotifyPrompt();
 
       } else if (inquirerResponse.command === "movie-this") {
           moviePrompt();
