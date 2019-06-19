@@ -63,7 +63,9 @@ function concertPrompt(){
 
             axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp&date=upcoming").then(
                 function(response){
-                    console.log(response)
+                    console.log("Venue name: " + response.data[0].venue.name)
+                    console.log("Venue location: " + response.data[0].venue.city + ", " + response.data[0].venue.region + " " + response.data[0].venue.country)
+                    console.log("Event date: " + response.data[0].datetime)
                 }
             )
         })
