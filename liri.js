@@ -2,20 +2,44 @@ var dotenv = require("dotenv").config();
 var axios = require("axios");
 var moments = require("moment")
 var inquirer = require("inquirer");
-
 var keys = require("./keys.js");
 // var spotify = new Spotify(keys.spotify);
+
+//Variable declarations
+var movie = ""
+
 
 //Function declarations
 function moviePrompt(){
     inquirer
-        .prompt([
-            {
-            type: "input",
-            message: "What movie would you like to get information about?",
-            name: "movie"
-            },
-        ])
+    .prompt([
+        {
+        type: "input",
+        message: "What movie would you like to get information about?",
+        name: "movie"
+        },
+    ])
+    .then(function(inquirerResponse){
+        movie = inquirerResponse.movie
+
+        axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy").then(
+            function(response){
+                console.log("Title: " + response.data.Title)
+                console.log("Year: " + response.data.Year)
+                console.log("IMDB Rating: " + response.data.imdbRating)
+                console.log("Rotten Tomatoes Rating : " + response.data.Ratings[1].Value)
+                console.log("Country produced : " + response.data.Country)
+                console.log("Language : " + response.data.Language)
+                console.log("Plot : " + response.data.Plot)
+                console.log("Actors : " + response.data.Actors)
+            }
+            // .catch(function(error){
+            //     if (error) {
+            //         return console.log(error);
+            //       }
+            // })
+        )
+    });
 }
 
 function concertPrompt(){
