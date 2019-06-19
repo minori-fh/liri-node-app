@@ -28,6 +28,7 @@ function moviePrompt(){
         },
     ])
     .then(function(inquirerResponse){
+        //In case user leaves input blank
         if (inquirerResponse.movie === ""){
             console.log("You didn't input anything! Here's a movie rec: ")
             movie = "Mr. Nobody"
@@ -37,14 +38,18 @@ function moviePrompt(){
 
         axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy").then(
             function(response){
-                console.log("Title: " + response.data.Title)
-                console.log("Year: " + response.data.Year)
-                console.log("IMDB Rating: " + response.data.imdbRating)
-                console.log("Rotten Tomatoes Rating : " + response.data.Ratings[1].Value)
-                console.log("Country produced : " + response.data.Country)
-                console.log("Language : " + response.data.Language)
-                console.log("Plot : " + response.data.Plot)
-                console.log("Actor(s) : " + response.data.Actors)
+                if (response.data.Title === undefined){
+                    console.log("Seems like this isn't a movie...")
+                } else {
+                    console.log("Title: " + response.data.Title)
+                    console.log("Year: " + response.data.Year)
+                    console.log("IMDB Rating: " + response.data.imdbRating)
+                    console.log("Rotten Tomatoes Rating : " + response.data.Ratings[1].Value)
+                    console.log("Country produced : " + response.data.Country)
+                    console.log("Language : " + response.data.Language)
+                    console.log("Plot : " + response.data.Plot)
+                    console.log("Actor(s) : " + response.data.Actors)
+                }
             })
             .catch(function(error){
                 if (error) {
