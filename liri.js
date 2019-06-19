@@ -1,12 +1,18 @@
-var dotenv = require("dotenv").config();
+require("dotenv").config();
 var axios = require("axios");
 var moments = require("moment")
 var inquirer = require("inquirer");
+
+
 var keys = require("./keys.js");
-// var spotify = new Spotify(keys.spotify);
+
+var Spotify = require('node-spotify-api');
+var spotify = new Spotify(keys.spotify);
 
 //Variable declarations
 var movie = ""
+var song = ""
+var artist = ""
 
 
 //Function declarations
@@ -51,6 +57,16 @@ function concertPrompt(){
             name: "concert"
             },
         ])
+        .then(function(inquirerResponse){
+            artist = inquirerResponse.concert
+            console.log("picked artist" + artist)
+
+            axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp&date=upcoming").then(
+                function(response){
+                    console.log(response)
+                }
+            )
+        })
 }
 
 function spotifyPrompt(){
@@ -62,6 +78,35 @@ function spotifyPrompt(){
             name: "song"
             },
         ])
+        .then(function(inquirerResponse){
+            song = inquirerResponse.song
+            console.log("You picked a song!" + song)
+
+            spotify.search({ type: 'track', query: song},
+                function(err, data){
+
+                    if (err){
+                        return console.log("Error occured: " + err)
+                    }
+            
+                    console.log("Artist(s): " + data.tracks.items[0].album.artists[0].name)
+
+                    if (data.tracks.items[0].album.album_type === "album"){ //freaky is a single
+                        console.log("Song name: " + song)
+                    } else {
+                        console.log("Song name: " + data.tracks.items[0].album.name)
+                    }
+
+                    console.log("Song preview: " + data.tracks.items[0].album.external_urls.spotify)
+
+                    if (data.tracks.items[0].album.album_type === "single"){ //freaky is a single
+                        console.log("Album name: N/A - this is a single!")
+                    } else if (data.tracks.items[0].album.album_type === "album"){
+                        console.log("Album name: " + data.tracks.items[0].album.name)
+                    }
+                }
+                )
+        })
 }
 
 
