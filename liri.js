@@ -1,6 +1,6 @@
 require("dotenv").config();
 var axios = require("axios");
-var moments = require("moment")
+var moment = require("moment")
 var inquirer = require("inquirer");
 
 
@@ -13,6 +13,8 @@ var spotify = new Spotify(keys.spotify);
 var movie = ""
 var song = ""
 var artist = ""
+var date = ""
+var formattedDate = ""
 
 
 //Function declarations
@@ -65,7 +67,11 @@ function concertPrompt(){
                 function(response){
                     console.log("Venue name: " + response.data[0].venue.name)
                     console.log("Venue location: " + response.data[0].venue.city + ", " + response.data[0].venue.region + " " + response.data[0].venue.country)
-                    console.log("Event date: " + response.data[0].datetime)
+                    
+                    // format date with moment
+                    date = response.data[0].datetime.slice(0,10)
+                    formattedDate = moment(date, "YYYY-MM-DD").format("MM/DD/YYYY")
+                    console.log("Event date: " + formattedDate)
                 }
             )
         })
