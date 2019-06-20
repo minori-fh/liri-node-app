@@ -3,10 +3,10 @@
 ## Directions on how to use the liri-node-app
 A node liri app! LIRI (language interpretation and recognition interface) is a command line node app that takes in parameters and gives back data. The following commands are available and surfaced in terminal for the user when the 'liri.js' is called to in the terminal: 
 
-1. **concert-this** : takes an input of an artist and suggests an upcoming event to attend
-2. **spotify-this-song** : takes an input of a song name and gives back information on artists/ album
-3. **movie-this** : takes an input of a movie name and gives back relevant information 
-4. **do-what-it-says** : takes an input from the 'random txt' file in the form of ("command",input) and executes the command accordingly
+1. **concert-this** : input = artist name; output =  upcoming event information
+2. **spotify-this-song** : input = song name; output = information on artists/ album
+3. **movie-this** : input = movie name; output =  movie information 
+4. **do-what-it-says** : input = 'random txt' file in the form of ("command",input); output = execution of the command specified in input
 
 ## Gifs of App
 <!-- Initial loading page:
