@@ -9,14 +9,14 @@ A node liri app! LIRI (language interpretation and recognition interface) is a c
 4. **do-what-it-says** : input = 'random txt' file in the form of ("command",input); output = execution of the command specified in input
 
 ## Gifs of App
-<!-- Initial loading page:
-![Site Screenshot](assets/images/site1.png)
-Page to display directions:
-![Site Screenshot](assets/images/site2.png)
-Page when a user clicks on a button with an emotion (clicking on the gifs will switch them from being still images to animated gifs and vice versa):
-![Site Screenshot](assets/images/site3.png)
-Page when a user generates more than 6 rows of emotions:
-![Site Screenshot](assets/images/site4.png) -->
+Command: concert-this
+![Site Screenshot](assets/liri-app-concert.gif)
+Command: spotify-this-song
+![Site Screenshot](assets/liri-app-spotify.gif)
+Command: movie-this
+![Site Screenshot](assets/liri-app-movie.gif)
+Command: do-what-it-says
+![Site Screenshot](assets/liri-app-doit.gif)
 
 ## Technologies Used
 1. HTML 
