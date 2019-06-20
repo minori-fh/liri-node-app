@@ -70,7 +70,14 @@ function concertPrompt(){
         },
     ])
     .then(function(inquirerResponse){
-        artist = inquirerResponse.concert
+        //In case user leaves input blank
+        if (inquirerResponse.concert === ""){
+            console.log("You didn't input anything! Here's a concert rec: ")
+            artist = "Skrillex"
+        } else {
+            artist = inquirerResponse.concert
+        }
+
 
         axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp&date=upcoming").then(
             function(response){
