@@ -40,7 +40,7 @@ function moviePrompt(){
         axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy").then(
             function(response){
                 if (response.data.Title === undefined){
-                    console.log("Seems like this isn't a movie...")
+                    console.log(chalk.bgRed("Seems like this isn't a movie..."))
                 } else {
                     console.log(chalk.bgCyan("Title:") + response.data.Title)
                     console.log(chalk.underline("Year:") + response.data.Year)
@@ -77,7 +77,6 @@ function concertPrompt(){
         } else {
             artist = inquirerResponse.concert
         }
-
 
         axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp&date=upcoming").then(
             function(response){
@@ -124,7 +123,7 @@ function spotifyPrompt(){
             function(err, data){
 
                 if (err){
-                    return console.log(chalk.bgRed("Error occured:") + err)
+                    return console.log(chalk.bgRed("Error occured, please make sure you entered a valid song!") + err)
                 }
         
                 console.log(chalk.bgCyan("Artist(s):") + data.tracks.items[0].album.artists[0].name)
@@ -216,7 +215,7 @@ function doIt(){
             axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy").then(
                 function(response){
                     if (response.data.Title === undefined){
-                        console.log("Seems like this isn't a movie...")
+                        console.log(chalk.byRed("Seems like this isn't a movie..."))
                     } else {
                         console.log(chalk.bgCyan("Title:") + response.data.Title)
                         console.log(chalk.underline("Year:") + response.data.Year)
