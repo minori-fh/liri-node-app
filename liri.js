@@ -3,6 +3,7 @@ var axios = require("axios");
 var moment = require("moment")
 var inquirer = require("inquirer");
 var fs = require("fs");
+const chalk = require('chalk');
 
 
 var keys = require("./keys.js");
@@ -41,14 +42,14 @@ function moviePrompt(){
                 if (response.data.Title === undefined){
                     console.log("Seems like this isn't a movie...")
                 } else {
-                    console.log("Title: " + response.data.Title)
-                    console.log("Year: " + response.data.Year)
-                    console.log("IMDB Rating: " + response.data.imdbRating)
-                    console.log("Rotten Tomatoes Rating : " + response.data.Ratings[1].Value)
-                    console.log("Country produced : " + response.data.Country)
-                    console.log("Language : " + response.data.Language)
-                    console.log("Plot : " + response.data.Plot)
-                    console.log("Actor(s) : " + response.data.Actors)
+                    console.log(chalk.bgCyan("Title:") + response.data.Title)
+                    console.log(chalk.underline("Year:") + response.data.Year)
+                    console.log(chalk.underline("IMDB Rating:") + response.data.imdbRating)
+                    console.log(chalk.underline("Rotten Tomatoes Rating:") + response.data.Ratings[1].Value)
+                    console.log(chalk.underline("Country produced:") + response.data.Country)
+                    console.log(chalk.underline("Language:") + response.data.Language)
+                    console.log(chalk.underline("Plot:") + response.data.Plot)
+                    console.log(chalk.underline("Actor(s):") + response.data.Actors)
                 }
             })
             .catch(function(error){
@@ -75,18 +76,18 @@ function concertPrompt(){
             function(response){
         
                 if (response.data.length === 0){
-                    console.log("NO UPCOMING EVENTS!")
+                    console.log(chalk.bgRed("NO UPCOMING EVENTS!"))
                 } else {
                     if (response.data[0].venue === undefined){
-                        console.log("THIS IS NOT AN ARTIST!")
+                        console.log(chalk.bgRed("THIS IS NOT AN ARTIST!"))
                     } else {
-                        console.log("Venue name: " + response.data[0].venue.name)
-                        console.log("Venue location: " + response.data[0].venue.city + ", " + response.data[0].venue.region + " " + response.data[0].venue.country)
+                        console.log(chalk.bgCyan("Venue name:") + response.data[0].venue.name)
+                        console.log(chalk.bgCyan("Venue location:") + response.data[0].venue.city + ", " + response.data[0].venue.region + " " + response.data[0].venue.country)
                         
                         // format date with moment
                         date = response.data[0].datetime.slice(0,10)
                         formattedDate = moment(date, "YYYY-MM-DD").format("MM/DD/YYYY")
-                        console.log("Event date: " + formattedDate)
+                        console.log(chalk.bgCyan("Event date:") + formattedDate)
                     }
                 }; 
             }
@@ -106,7 +107,7 @@ function spotifyPrompt(){
     .then(function(inquirerResponse){
          //In case user leaves input blank
          if (inquirerResponse.song === ""){
-            console.log("You didn't input anything! Here's a song rec: ")
+            console.log(chalk.bgRed("You didn't input anything! Here's a song rec: "))
             song = "Freaky"
         } else {
             song = inquirerResponse.song
@@ -116,25 +117,25 @@ function spotifyPrompt(){
             function(err, data){
 
                 if (err){
-                    return console.log("Error occured: " + err)
+                    return console.log(chalk.bgRed("Error occured:") + err)
                 }
         
-                console.log("Artist(s): " + data.tracks.items[0].album.artists[0].name)
+                console.log(chalk.bgCyan("Artist(s):") + data.tracks.items[0].album.artists[0].name)
 
                 //Check if the song is part of an album
                 if (data.tracks.items[0].album.album_type === "album"){ //ex: freaky is a single
-                    console.log("Song name: " + song)
+                    console.log(chalk.underline("Song name:") + song)
                 } else {
-                    console.log("Song name: " + data.tracks.items[0].album.name)
+                    console.log(chalk.underline("Song name:") + data.tracks.items[0].album.name)
                 }
                 
-                console.log("Song preview: " + data.tracks.items[0].album.external_urls.spotify)
+                console.log(chalk.underline("Song preview:") + data.tracks.items[0].album.external_urls.spotify)
 
                 //Check if the song is a single
                 if (data.tracks.items[0].album.album_type === "single"){ //ex: formation is from an album
-                    console.log("Album name: N/A - this is a single!")
+                    console.log(chalk.red("Album name: N/A - this is a single!"))
                 } else if (data.tracks.items[0].album.album_type === "album"){
-                    console.log("Album name: " + data.tracks.items[0].album.name)
+                    console.log(chalk.underline("Album name:") + data.tracks.items[0].album.name)
                 }
             }
             )
@@ -159,48 +160,49 @@ function doIt(){
                 function(response){
             
                     if (response.data.length === 0){
-                        console.log("NO UPCOMING EVENTS!")
+                        console.log(chalk.bgRed("NO UPCOMING EVENTS!"))
                     } else {
                         if (response.data[0].venue === undefined){
-                            console.log("THIS IS NOT AN ARTIST!")
+                            console.log(chalk.bgRed("THIS IS NOT AN ARTIST!"))
                         } else {
-                            console.log("Venue name: " + response.data[0].venue.name)
-                            console.log("Venue location: " + response.data[0].venue.city + ", " + response.data[0].venue.region + " " + response.data[0].venue.country)
+                            console.log(chalk.bgCyan("Venue name:") + response.data[0].venue.name)
+                            console.log(chalk.bgCyan("Venue location:") + response.data[0].venue.city + ", " + response.data[0].venue.region + " " + response.data[0].venue.country)
                             
                             // format date with moment
                             date = response.data[0].datetime.slice(0,10)
                             formattedDate = moment(date, "YYYY-MM-DD").format("MM/DD/YYYY")
-                            console.log("Event date: " + formattedDate)
+                            console.log(chalk.bgCyan("Event date:") + formattedDate)
                         }
                     }; 
                 }
             )
   
         } else if (command === "spotify-this-song") {
-            spotify.search({ type: 'track', query: song},
-            function(err, data){
+            
+        spotify.search({ type: 'track', query: song},
+        function(err, data){
 
-                if (err){
-                    return console.log("Error occured: " + err)
-                }
-        
-                console.log("Artist(s): " + data.tracks.items[0].album.artists[0].name)
+            if (err){
+                return console.log(chalk.bgRed("Error occured:") + err)
+            }
+    
+            console.log(chalk.bgCyan("Artist(s):") + data.tracks.items[0].album.artists[0].name)
 
-                //Check if the song is part of an album
-                if (data.tracks.items[0].album.album_type === "album"){ //ex: freaky is a single
-                    console.log("Song name: " + song)
-                } else {
-                    console.log("Song name: " + data.tracks.items[0].album.name)
-                }
-                
-                console.log("Song preview: " + data.tracks.items[0].album.external_urls.spotify)
+            //Check if the song is part of an album
+            if (data.tracks.items[0].album.album_type === "album"){ //ex: freaky is a single
+                console.log(chalk.underline("Song name:") + song)
+            } else {
+                console.log(chalk.underline("Song name:") + data.tracks.items[0].album.name)
+            }
+            
+            console.log(chalk.underline("Song preview:") + data.tracks.items[0].album.external_urls.spotify)
 
-                //Check if the song is a single
-                if (data.tracks.items[0].album.album_type === "single"){ //ex: formation is from an album
-                    console.log("Album name: N/A - this is a single!")
-                } else if (data.tracks.items[0].album.album_type === "album"){
-                    console.log("Album name: " + data.tracks.items[0].album.name)
-                }
+            //Check if the song is a single
+            if (data.tracks.items[0].album.album_type === "single"){ //ex: formation is from an album
+                console.log(chalk.red("Album name: N/A - this is a single!"))
+            } else if (data.tracks.items[0].album.album_type === "album"){
+                console.log(chalk.underline("Album name:") + data.tracks.items[0].album.name)
+            }
             }
             )
         } else if (command === "movie-this") {
@@ -209,14 +211,14 @@ function doIt(){
                     if (response.data.Title === undefined){
                         console.log("Seems like this isn't a movie...")
                     } else {
-                        console.log("Title: " + response.data.Title)
-                        console.log("Year: " + response.data.Year)
-                        console.log("IMDB Rating: " + response.data.imdbRating)
-                        console.log("Rotten Tomatoes Rating : " + response.data.Ratings[1].Value)
-                        console.log("Country produced : " + response.data.Country)
-                        console.log("Language : " + response.data.Language)
-                        console.log("Plot : " + response.data.Plot)
-                        console.log("Actor(s) : " + response.data.Actors)
+                        console.log(chalk.bgCyan("Title:") + response.data.Title)
+                        console.log(chalk.underline("Year:") + response.data.Year)
+                        console.log(chalk.underline("IMDB Rating:") + response.data.imdbRating)
+                        console.log(chalk.underline("Rotten Tomatoes Rating:") + response.data.Ratings[1].Value)
+                        console.log(chalk.underline("Country produced:") + response.data.Country)
+                        console.log(chalk.underline("Language:") + response.data.Language)
+                        console.log(chalk.underline("Plot:") + response.data.Plot)
+                        console.log(chalk.underline("Actor(s):") + response.data.Actors)
                     }
                 })
                 .catch(function(error){
